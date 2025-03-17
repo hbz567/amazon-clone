@@ -12,7 +12,8 @@ export function addToCart(productId) {
 
     inCart || cart.push({
         productId,
-        quantity: 1
+        quantity: 1,
+        deliveryOptionsId: 1
     });
 
     saveToStorage();
