@@ -5,8 +5,8 @@ export function addToCart(productId) {
 
     cart.forEach((cartItem) => {
         if (cartItem.productId === productId) {
-        inCart = true;
-        cartItem.quantity += 1;
+            inCart = true;
+            cartItem.quantity += 1;
         }
     });
 
@@ -30,4 +30,13 @@ export function removeFromCart(productId) {
 
 function saveToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+export function updateDeliveryOption(productId, newOptionId) {
+    cart.forEach(cartItem => {
+        if (cartItem.productId === productId) {
+            cartItem.deliveryOptionsId = newOptionId;
+        }
+    });
+    saveToStorage();
 }
