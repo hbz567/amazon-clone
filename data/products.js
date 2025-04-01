@@ -49,6 +49,26 @@ class Clothing extends Product {
   }
 }
 
+
+/*
+console.log(this); // undefined
+const obj2 = {
+  method() {
+    console.log(this.a);
+  },
+  a: 1,
+  b: this.a, // error
+}
+obj2.method(); // prints 1
+*/
+
+const obj3 = {
+  method() {
+    console.log(this);
+  }
+};
+obj3.method();
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
