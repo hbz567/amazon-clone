@@ -88,7 +88,7 @@ export function loadProducts(renderFunction) {
     renderFunction();
   });
 
-  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.open('GET', 'https://supersimplebackend.dev/products', false);
   xhr.send();
 }
 
