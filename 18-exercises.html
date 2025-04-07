@@ -71,7 +71,7 @@
             } catch (error) {
                 if (error.status === 400) {
                     const errorMessage = await error.json();
-                    console.log(json);
+                    console.log(errorMessage);
                 } else {
                     console.log('Network Error. Please try again later.');
                 }          
