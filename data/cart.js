@@ -65,3 +65,16 @@ export async function loadCartFetch() {
     console.log(text);
     return text;
 }
+
+export function updateCartQuantity() {
+    let cartQuantity = 0;
+    cart.forEach(item => {
+        cartQuantity += item.quantity;
+    });
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+}
+
+export function emptyCart() {
+    cart = [];
+    saveToStorage();
+}
