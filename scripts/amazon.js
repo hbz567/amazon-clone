@@ -3,6 +3,10 @@ import { products, loadProducts } from '../data/products.js';
 import formatCurrency from './utils/money.js';
 import { updateCartQuantity } from '../data/cart.js';
 
+document.querySelector('.js-search-button').addEventListener('click', () => {
+  window.location.href = `?search=${document.querySelector('.js-search-bar').value}`;
+});
+
 loadProducts(renderProductsGrid);
 
 function renderProductsGrid() {
@@ -10,7 +14,25 @@ function renderProductsGrid() {
 
   let productsHTML = '';
 
-  products.forEach(product => {
+  const url = new URL(window.location.href);
+  const search = url.searchParams.get('search');
+
+  let filteredProducts = products;
+
+  if (search) {
+
+    filteredProducts = products.filter((product) => {
+      for (let i = 0; i < product.keywords.length; i++) {
+        if (product.keywords[i] === search.toLowerCase()) {
+          return true;
+        }
+      }
+
+      return product.name.toLowerCase().includes(search.toLowerCase()) 
+    });
+  }
+  
+  filteredProducts.forEach(product => {
       productsHTML += `
           <div class="product-container">
             <div class="product-image-container">
