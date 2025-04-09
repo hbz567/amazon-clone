@@ -1,5 +1,6 @@
 import { getOrder, getProductFromOrder } from "../data/orders.js";
 import { loadProductsFetch, getProduct } from '../data/products.js';
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 const url = new URL(window.location.href);
 const orderId = url.searchParams.get('orderId');
@@ -8,12 +9,6 @@ const productId = url.searchParams.get('productId');
 async function loadPage() {
     const order = getOrder(orderId);
     const orderItem = getProductFromOrder(order, productId);
-
-    const formattedDate = new Date(orderItem.estimatedDeliveryTime).toLocaleString('en-US', {
-        month: 'long',
-        day: '2-digit',
-        timeZone: 'UTC'
-    });
 
     await loadProductsFetch();
     const product = getProduct(productId);
@@ -26,7 +21,7 @@ async function loadPage() {
             </a>
 
             <div class="delivery-date">
-            Arriving on ${formattedDate}
+            Arriving on ${dayjs(orderItem.estimatedDeliveryTime).format('dddd, MMMM D')}
             </div>
 
             <div class="product-info">
@@ -57,14 +52,11 @@ async function loadPage() {
         </div>
     `;
 
-    const orderTime = new Date(order.orderTime);
-    const deliveryTime = new Date(orderItem.estimatedDeliveryTime);
-    const currentTime = new Date();
+    const currentTime = dayjs();
+    const orderTime = dayjs(order.orderTime);
+    const deliveryTime = dayjs(orderItem.estimatedDeliveryTime);
 
-    const progressPercentage = Math.round(
-        ((currentTime - orderTime) / (deliveryTime - orderTime)) * 10000
-    );
-
+    const progressPercentage = ((currentTime - orderTime) / (deliveryTime - orderTime)) * 100;
     let status = '';
 
     if (progressPercentage <= 49) {
